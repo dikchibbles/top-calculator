@@ -43,45 +43,78 @@ var operators = {
     }
 };
 
+let numsOpers = [];
 
 function main () {
-    let numsOpers = [];
     clearButton.addEventListener('click', () => {
         display.innerText = "";
         numsOpers = [];
-        console.log(numsOpers)
     });
     numButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            let text;
-            if (display.innerText.length < 7) {
-                console.log(display.innerText.length)
-                text = button.innerText;
-             if (text !== "=" && text !== "-" && text !== "+" && text !== "x" && text !== "%") {
-                display.textContent += button.textContent;  
-                } else {
-                    if(button.innerText !== "=") {
-                        numsOpers.push(+display.innerText);
-                        numsOpers.push(button.innerText);
-                        display.innerText = "";
-                    } else {
-                        numsOpers.push(+display.innerText)
-                        let operator = "+";
-                        let result = numsOpers.reduce((acc, cur) => {
-                            if(typeof cur === 'number') {
-                                acc = operators[operator](acc, cur);
-                            } else {
-                                operator = cur;
-                            }
-                            return acc
-                        })
-                        display.innerText = result;
-                        numsOpers = [];
-                    }
-                }
-            }
-        })
+        button.addEventListener('click', operate);
     });
+    window.addEventListener('keydown', operateKeyDown) 
 }
 
 
+function operate(event) {
+    let text;
+    if (display.innerText.length < 7) {
+        console.log(display.innerText.length)
+        text = this.innerText;
+        if (text !== "=" && text !== "-" && text !== "+" && text !== "x" && text !== "%") {
+        display.textContent += this.textContent;  
+        } else {
+            if(this.innerText !== "=") {
+                numsOpers.push(+display.innerText);
+                numsOpers.push(this.innerText);
+                display.innerText = "";
+            } else {
+                numsOpers.push(+display.innerText)
+                let operator = "+";
+                let result = numsOpers.reduce((acc, cur) => {
+                    if(typeof cur === 'number') {
+                        acc = operators[operator](acc, cur);
+                    } else {
+                        operator = cur;
+                    }
+                    return acc
+                })
+                display.innerText = result;
+                numsOpers = [];
+            }
+        }
+    }
+}
+
+function operateKeyDown(e) {
+    let text;
+    const btnList = [7, 8, 9, "%", 4, 5, 6, "x", 1, 2, 3, "-", 0, "=", "+"];
+    if (btnList.includes(+e.key) || btnList.includes(e.key)) {
+        if (display.innerText.length < 7) {
+            text = e.key;
+            if (text !== "=" && text !== "-" && text !== "+" && text !== "x" && text !== "%") {
+            display.textContent += e.key;  
+            } else {
+                if(e.key !== "=") {
+                    numsOpers.push(+display.innerText);
+                    numsOpers.push(e.key);
+                    display.innerText = "";
+                } else {
+                    numsOpers.push(+display.innerText)
+                    let operator = "+";
+                    let result = numsOpers.reduce((acc, cur) => {
+                        if(typeof cur === 'number') {
+                            acc = operators[operator](acc, cur);
+                        } else {
+                            operator = cur;
+                        }
+                        return acc
+                    })
+                    display.innerText = result;
+                    numsOpers = [];
+                }
+            }
+        }
+    }
+}
