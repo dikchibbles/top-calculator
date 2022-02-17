@@ -53,7 +53,7 @@ button:hover {
     justify-content: flex-end;
 }
 
-.tools-clear, .tools-delete {
+.tools-clear, .tools-delete, .tools-dot {
     height: 60px;
     width: 60px;
     background-color: black;

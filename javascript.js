@@ -19,6 +19,7 @@ createCalcButtons()
 const numButtons = numDiv.querySelectorAll('button');
 const clearButton = toolsDiv.getElementsByClassName('tools-clear')[0];
 const delButton = toolsDiv.getElementsByClassName('tools-delete')[0];
+const dotButton = toolsDiv.getElementsByClassName('tools-dot')[0];
 const display = document.getElementById('display');
 
 
@@ -50,6 +51,9 @@ function main () {
         display.innerText = "";
         numsOpers = [];
     });
+    dotButton.addEventListener('click', () => {
+        if ((!(display.innerText.includes("."))) && display.innerText) display.innerText += ".";
+    })
     numButtons.forEach(button => {
         button.addEventListener('click', operate);
     });
